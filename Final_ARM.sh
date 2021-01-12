@@ -1,55 +1,49 @@
 #!/usr/bin/env bash
 
-# Es wird empfohlen root als Benutzer zu verwenden
-Benutzer="root"
+                #Es wird empfohlen root als Benutzer zu verwenden
+                Benutzer="root"
 
-#export DEBCONF_NONINTERACTIVE_SEEN="true"
-#export DEBIAN_FRONTEND="noninteractive"
-#export CUDA_Version=10.1
-#export CUDA_Script=cuda_10.1.105_418.39_linux.run
-#export CUDA_Pfad=/usr/local/cuda-11.2
-#export CUDA_Download=https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.105_418.39_linux.run
-export PHP_VERS="7.2"
-export OPENCV_VER=4.5.1
-export OPENCV_URL=https://github.com/opencv/opencv/archive/$OPENCV_VER.zip
-export OPENCV_CONTRIB_URL=https://github.com/opencv/opencv_contrib/archive/$OPENCV_VER.zip
-export TZ="Europe/Berlin"
-#export PYTHON_INCLUDE_DIRS=/usr/include/python3.6
-#export PYTHON_LIBRARIES=/usr/lib/python3.6/config-3.6m-x86_64-linux-gnu/libpython3.6.so
-#export SHMEM="50%"
-#export MULTI_PORT_START="0"
-#export MULTI_PORT_END="0"
+                export DEBCONF_NONINTERACTIVE_SEEN="true"
+                export DEBIAN_FRONTEND="noninteractive"
+                export PHP_VERS="7.2"
+                export OPENCV_VER=4.5.1
+                export OPENCV_URL=https://github.com/opencv/opencv/archive/$OPENCV_VER.zip
+                export OPENCV_CONTRIB_URL=https://github.com/opencv/opencv_contrib/archive/$OPENCV_VER.zip
+                export TZ="Europe/Berlin"
+                export SHMEM="50%"
+                export MULTI_PORT_START="0"
+                export MULTI_PORT_END="0"
 
+                if [ "$(whoami)" != $Benutzer ]; then
+                        echo $(date -u) "Script muss als Benutzer $Benutzer ausgeführt werden!"
+                        exit 255
+                fi
 
-if [ "$(whoami)" != $Benutzer ]; then
-        echo $(date -u) "Script muss als Benutzer $Benutzer ausgeführt werden!"
-        exit 255
-fi
+                echo $(date -u) "Test auf bestehende FinalInstall.log"
+                      test -f ~/FinalInstall.log && rm ~/FinalInstall.log
 
-echo $(date -u) "Test auf bestehende FinalInstall.log"
-      test -f ~/FinalInstall.log && rm ~/FinalInstall.log
+                echo $(date -u) "FinalInstall.log anlegen"
+                      touch ~/FinalInstall.log
 
-echo $(date -u) "FinalInstall.log anlegen"
-      touch ~/FinalInstall.log
+                #Highspeed - Modus setzen
+                grep -q Jetson-AGX /proc/device-tree/model && sudo nvpmodel -m 3
+                grep -q Xavier /proc/device-tree/model && sudo nvpmodel -m 2
+                grep -q Nano /proc/device-tree/model   && sudo nvpmodel -m 0
+                sudo jetson_clocks
 
+echo $(date -u) "#################################################################################################################" | tee -a  ~/FinalInstall.log
+echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS            By WIEGEHTKI.DE #" | tee -a  ~/FinalInstall.log
+echo $(date -u) "# Zur freien Verwendung. Ohne Gewähr und nur auf Testsystemen anzuwenden                                        #" | tee -a  ~/FinalInstall.log
+echo $(date -u) "#                                                                                                               #" | tee -a  ~/FinalInstall.log
+echo $(date -u) "# V1.0.0 (Rev a), 12.01.2021                                                                                    #" | tee -a  ~/FinalInstall.log
+echo $(date -u) "#################################################################################################################" | tee -a  ~/FinalInstall.log
 
-echo $(date -u) "########################################################################################################################" | tee -a  ~/FinalInstall.log
-echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS                   By WIEGEHTKI.DE #" | tee -a  ~/FinalInstall.log
-echo $(date -u) "# Zur freien Verwendung. Ohne Gewähr und nur auf Testsystemen anzuwenden                                               #" | tee -a  ~/FinalInstall.log
-echo $(date -u) "#                                                                                                                      #" | tee -a  ~/FinalInstall.log
-echo $(date -u) "# V1.0.0 (Rev a), 06.01.2021                                                                                           #" | tee -a  ~/FinalInstall.log
-echo $(date -u) "########################################################################################################################" | tee -a  ~/FinalInstall.log
-
-echo $(date -u) "........................................................................................................................" | tee -a  ~/FinalInstall.log
-echo $(date -u) "01 von 07: CUDA runterladen und samt Grafiktreiber installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
+echo $(date -u) "01 von 08: CUDA runterladen und samt Grafiktreiber installieren"  | tee -a  ~/FinalInstall.log
                 cd ~
 
-echo $(date -u) "02 von 07: Check auf installierten Treiber"  | tee -a  ~/FinalInstall.log
-echo $(date -u) "03 von 07: CUDA Umgebung setzen"  | tee -a  ~/FinalInstall.log
-
-    
-echo $(date -u) "........................................................................................................................" | tee -a  ~/FinalInstall.log
-echo $(date -u) "02 von 07: Systemupdate und Apache, MySQL und PHP installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
+echo $(date -u) "02 von 08: Systemupdate und Apache, MySQL und PHP installieren"  | tee -a  ~/FinalInstall.log
                 apt -y upgrade
                 apt -y dist-upgrade
 
@@ -73,8 +67,8 @@ echo $(date -u) "02 von 07: Systemupdate und Apache, MySQL und PHP installieren"
                 echo "sql_mode        = NO_ENGINE_SUBSTITUTION" >> /etc/mysql/my.cnf
                 systemctl restart mysql
 
-echo $(date -u) "........................................................................................................................" | tee -a  ~/FinalInstall.log
-echo $(date -u) "03 von 07: Apache konfigurieren, SSL-Zertifikate generieren und Zoneminder installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
+echo $(date -u) "03 von 08: Apache konfigurieren, SSL-Zertifikate generieren und Zoneminder installieren"  | tee -a  ~/FinalInstall.log
                 apt -y install zoneminder
                 sudo apt -y install ntp ntp-doc
                 apt -y install ssmtp mailutils net-tools wget sudo make
@@ -135,19 +129,17 @@ echo $(date -u) "03 von 07: Apache konfigurieren, SSL-Zertifikate generieren und
                 systemctl reload apache2
                 adduser www-data video
 
-                echo "extension=apcu.so" > /etc/php/$PHP_VERS/mods-available/apcu.ini
+                echo "extension=apcu.so"   > /etc/php/$PHP_VERS/mods-available/apcu.ini
                 echo "extension=mcrypt.so" > /etc/php/$PHP_VERS/mods-available/mcrypt.ini
                 
                 systemctl enable zoneminder
                 systemctl start zoneminder
 
-
-echo $(date -u) "........................................................................................................................" | tee -a  ~/FinalInstall.log
-echo $(date -u) "04 von 07: zmeventnotification installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
+echo $(date -u) "04 von 08: zmeventnotification installieren"  | tee -a  ~/FinalInstall.log
                 sudo apt -y install python3-matplotlib libgeos-dev
-                #python3 -m pip install numpy -I
-                python3 -m pip  install numpy scipy ipython pandas sympy nose cython
-                python3 -m pip  install future
+                python3 -m pip install numpy scipy ipython pandas sympy nose cython
+                python3 -m pip install future
 
                 cp -r ~/zoneminder/Anzupassen/. /etc/zm/.
                 cp -r ~/zoneminder/zmeventnotification/EventServer.zip ~/.
@@ -172,10 +164,8 @@ echo $(date -u) "04 von 07: zmeventnotification installieren"  | tee -a  ~/Final
                 yes | perl -MCPAN -e "install LWP::Protocol::https"
                 yes | perl -MCPAN -e "install Net::MQTT::Simple"
 
-                
-echo $(date -u) "........................................................................................................................" | tee -a  ~/FinalInstall.log
-echo $(date -u) "05 von 07: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/FinalInstall.log
-                 
+echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
+echo $(date -u) "05 von 08: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/FinalInstall.log
                 # Face recognition, umschalten auf CUDA. Bisherigen (CPU-) dlib de-installieren
                 sudo -H pip3 uninstall dlib
                 sudo -H pip3 uninstall face-recognition
@@ -187,9 +177,8 @@ echo $(date -u) "05 von 07: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 python3 -m pip install face_recognition
                 cd ~
 
-echo $(date -u) "........................................................................................................................" | tee -a  ~/FinalInstall.log
-echo $(date -u) "06 von 07: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/FinalInstall.log
- 
+echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
+echo $(date -u) "06 von 08: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/FinalInstall.log
                 #opencv compilieren
                 apt -y install python-dev python3-dev
                 apt -y install python-pip
@@ -203,8 +192,6 @@ echo $(date -u) "06 von 07: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 mv $(ls -d opencv-*) opencv
                 mv opencv_contrib-$OPENCV_VER opencv_contrib
                 #rm *.zip
-
-                #logger "Compiling opencv..." -tEventServer
 
                 cd ~/opencv
                 rm -rf build
@@ -235,9 +222,6 @@ echo $(date -u) "06 von 07: Gesichtserkennung und cuDNN installieren"  | tee -a 
                       -D BUILD_EXAMPLES=OFF ..
 
                 make -j$(nproc)
-
-
-                #logger "Installing opencv..." -tEventServer
                 make install
 
                 echo "Test auf CUDA enabled Devices, muss größer 0 sein:" | tee -a  ~/FinalInstall.log
@@ -245,13 +229,11 @@ echo $(date -u) "06 von 07: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 echo "count = cv2.cuda.getCudaEnabledDeviceCount()" | tee -a  ~/FinalInstall.log
                 echo "print(count)" | tee -a  ~/FinalInstall.log
 
-                #/usr/local/lib/python3.6/dist-packages/cv2
-                
                 chown root:www-data /etc/zm/conf.d/*.conf
                 chmod 640 /etc/zm/conf.d/*.conf
 
-echo $(date -u) "........................................................................................................................" | tee -a  ~/FinalInstall.log
-echo $(date -u) "07 von 07: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
+echo $(date -u) "07 von 08: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstall.log
                 cp -r ~/zoneminder/Bugfixes/face_train.py /usr/local/lib/python3.6/dist-packages/pyzm/ml/face_train.py
                 echo "Installation beendet, bitte Rechner neu starten (reboot)"
                 echo ""
@@ -283,23 +265,31 @@ echo $(date -u) "07 von 07: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstal
                 
                 chown -R root:www-data /etc/apache2/ssl/*
                 a2enmod ssl
-                systemctl restart apache2        
 
-#Test:
-#https://zm.wiegehtki.de/zm/api/host/getVersion.json
-#https://zm.wiegehtki.de/zm/?view=image&eid=<EVENTID_EINSETZEN>&fid=snapshot
-#https://zm.wiegehtki.de/zm/?view=image&eid=<EVENTID_EINSETZEN>&fid=alarm
+echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
+echo $(date -u) "07 von 08: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstall.log
+                #Bugfixes
+                python3 -m install numpy==1.16.1
+                python3 -m install protobuf==3.3.0
+                chown -R  www-data:www-data /etc/apache2/ssl
+                echo ""
+                echo "Installation abgeschlossen, bitte Log prüfen und Jetson neu starten (reboot)"
 
-##### Verzeichnis für Gesichtstraining
-#/var/lib/zmeventnotification/known_faces
+                #Test:
+                #https://zm.wiegehtki.de/zm/api/host/getVersion.json
+                #https://zm.wiegehtki.de/zm/?view=image&eid=<EVENTID_EINSETZEN>&fid=snapshot
+                #https://zm.wiegehtki.de/zm/?view=image&eid=<EVENTID_EINSETZEN>&fid=alarm
 
-#sudo -u www-data /var/lib/zmeventnotification/bin/zm_train_faces.py
-#sudo -u www-data /var/lib/zmeventnotification/bin/zm_detect.py --config /etc/zm/objectconfig.ini  --eventid 1 --monitorid 1 --debug
-#chown -R www-data:www-data /var/lib/zmeventnotification/known_faces
-#echo "<DEINE_IP>  <DEINE_DOMAIN>" >> /etc/hosts
+                ##### Verzeichnis für Gesichtstraining
+                #/var/lib/zmeventnotification/known_faces
 
-##### Link für Reolink Kameras, getestet mit RL410 #####
-#rtmp://<KAMERA_IP>/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=<Dein Passwort>
+                #sudo -u www-data /var/lib/zmeventnotification/bin/zm_train_faces.py
+                #sudo -u www-data /var/lib/zmeventnotification/bin/zm_detect.py --config /etc/zm/objectconfig.ini  --eventid 1 --monitorid 1 --debug
+                #chown -R www-data:www-data /var/lib/zmeventnotification/known_faces
+                #echo "<DEINE_IP>  <DEINE_DOMAIN>" >> /etc/hosts
+
+                ##### Link für Reolink Kameras, getestet mit RL410 #####
+                #rtmp://<KAMERA_IP>/bcs/channel0_main.bcs?channel=0&stream=0&user=admin&password=<Dein Passwort>
 
 
 
