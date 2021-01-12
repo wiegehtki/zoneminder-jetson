@@ -25,14 +25,6 @@
 * **cuDNN 8.0**
 * **TensorRT 7.1.3**
 
-#### Erweitertes Installationsscript Installv2.3.8.sh (Stable, rev g)
-* **Die Plattform Nano bzw. Jetson wird jetzt automatisch erkannt.** 
-* **Unterstützung für JP4.4.1.**
-* **TensorFlow 1.x.x oder 2.x.x kann jetzt mittels Parameter ausgewählt werden.**
-**Dazu den Wert von 1 auf 2 ändern. Es wird dann der letztgültige Stand der jeweiligen Version installiert:**
-```
-    TensorFlow="1"
-```
 
 #### Die Geschwindigkeit kann wie folgt hoch gesetzt werden:
 #### NVIDIA® Jetson™ Nano
@@ -94,7 +86,6 @@ Das gleiche gilt für `ZM_PORTAL=https://<PORTAL-ADRESSE>/zm` und `ZM_API_PORTAL
        object_labels={{base_data_path}}/models/yolov4/coco.names
 ```
 
-
 **Wichtig:** Der Installationsprozess ist in 2 Schritte unterteilt, **Initial.sh** und **Final.sh** und erfordert ein paar Betsätigungen durch den Benutzer.
 3.  Erneut Einloggen und dann die zweite und letzte Stufe der Installation starten:
 ```
@@ -102,7 +93,6 @@ Das gleiche gilt für `ZM_PORTAL=https://<PORTAL-ADRESSE>/zm` und `ZM_API_PORTAL
        cd ~
        ./Final.sh  
 ```
-
 
 #### Kontrolle des Installationsfortschritts
 
