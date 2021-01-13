@@ -49,9 +49,10 @@ Einloggen und dann die erste Stufe der Installation starten, der Rechner reboote
        sudo su
        cd ~
        git clone https://github.com/wiegehtki/zoneminder-jetson.git
+       mv ~/zoneminder-jetson ~/zoneminder
        cp zoneminder/*sh .
        sudo chmod +x *sh
-       ./Initial.sh      
+       ./Initial_ARM.sh      
 ```
 
 #### Bevor wir weitermachen können, müssen im Verzeichnis `~/zoneminder/Anzupassen` verschiedene Dateien modifiziert werden.
@@ -90,7 +91,7 @@ Das gleiche gilt für `ZM_PORTAL=https://<PORTAL-ADRESSE>/zm` und `ZM_API_PORTAL
 ```
        sudo su
        cd ~
-       ./Final.sh  
+       ./Final_ARM.sh  
 ```
 
 #### Kontrolle des Installationsfortschritts
