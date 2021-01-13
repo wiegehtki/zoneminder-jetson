@@ -109,6 +109,7 @@ Falls nicht, hier die Download-Links:
     * `Options->Users` aufrufen und dem `admin` - Benutzer ein Kennwort vergeben
     * `Options->System` anwählen und `OPT_USE_AUTH` aktivieren
     * Ganz unten `Save` anklicken und Einstellungen speichern
+    * Anmeldemaske erscheint, neu anmelden
     * `Options->System` anwählen und `OPT_USE_AUTH` **de-aktivieren**
     * `AUTH_RELAY` auf **none** setzen
     * `AUTH_HASH_SECRET` auf irgendeinen Wert setzen
