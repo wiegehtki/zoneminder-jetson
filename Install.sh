@@ -35,15 +35,43 @@ echo $(date -u) "###############################################################
 echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS            By WIEGEHTKI.DE #" | tee -a  ~/FinalInstall.log
 echo $(date -u) "# Zur freien Verwendung. Ohne Gewähr und nur auf Testsystemen anzuwenden                                        #" | tee -a  ~/FinalInstall.log
 echo $(date -u) "#                                                                                                               #" | tee -a  ~/FinalInstall.log
-echo $(date -u) "# V1.0.0 (Rev a), 12.01.2021                                                                                    #" | tee -a  ~/FinalInstall.log
+echo $(date -u) "# V2.0.0 (Rev a), 12.01.2021                                                                                    #" | tee -a  ~/FinalInstall.log
 echo $(date -u) "#################################################################################################################" | tee -a  ~/FinalInstall.log
 
-echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
-echo $(date -u) "01 von 08: CUDA runterladen und samt Grafiktreiber installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
+echo $(date -u) "01 von 04: Linux - Check"    | tee -a  ~/Installation.log
+                uname -m && cat /etc/*release | tee -a  ~/Installation.log
+
+echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
+echo $(date -u) "02 von 04: System - Update & Upgrade"  | tee -a  ~/Installation.log
+                apt -y update
+                apt -y dist-upgrade
+
+echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
+echo $(date -u) "03 von 04 Diverse Pakete installieren wie Compiler, Headers usw., welche für CUDA benötigt werden"  | tee -a  ~/Installation.log
+                apt -y install gcc make nano letsencrypt
+                apt -y install build-essential cmake pkg-config unzip yasm git checkinstall
+                apt -y install libjpeg-dev libpng-dev libtiff-dev liblzma-doc
+                apt -y install libavcodec-dev libavformat-dev libswscale-dev libavresample-dev
+                apt -y install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+                apt -y install libxvidcore-dev x264 libx264-dev libfaac-dev libmp3lame-dev libtheora-dev
+                apt -y install libfaac-dev libmp3lame-dev libvorbis-dev
+                apt -y install libopencore-amrnb-dev libopencore-amrwb-dev
+                apt -y install libdc1394-22 libdc1394-22-dev libxine2-dev libv4l-dev v4l-utils libraw1394-doc
+                cd /usr/include/linux
+                ln -s -f ../libv4l1-videodev.h videodev.h
+                cd ~
+                apt -y install python3-testresources
+                apt -y install libtbb-dev tbb-examples libtbb-doc
+                apt -y install libatlas-base-dev gfortran 
+                apt -y install libprotobuf-dev protobuf-compiler
+                apt -y install libgoogle-glog-dev libgflags-dev
+                apt -y install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen
+                apt -y install gcc-6
                 cd ~
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
-echo $(date -u) "02 von 08: Systemupdate und Apache, MySQL und PHP installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "04 von 10: Systemupdate und Apache, MySQL und PHP installieren"  | tee -a  ~/FinalInstall.log
                 apt -y upgrade
                 apt -y dist-upgrade
 
@@ -68,7 +96,7 @@ echo $(date -u) "02 von 08: Systemupdate und Apache, MySQL und PHP installieren"
                 systemctl restart mysql
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
-echo $(date -u) "03 von 08: Apache konfigurieren, SSL-Zertifikate generieren und Zoneminder installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und Zoneminder installieren"  | tee -a  ~/FinalInstall.log
                 apt -y install zoneminder
                 sudo apt -y install ntp ntp-doc
                 apt -y install ssmtp mailutils net-tools wget sudo make
@@ -136,7 +164,7 @@ echo $(date -u) "03 von 08: Apache konfigurieren, SSL-Zertifikate generieren und
                 systemctl start zoneminder
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
-echo $(date -u) "04 von 08: zmeventnotification installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/FinalInstall.log
                 sudo apt -y install python3-matplotlib libgeos-dev
                 python3 -m pip install numpy scipy ipython pandas sympy nose cython
                 python3 -m pip install future
@@ -165,7 +193,7 @@ echo $(date -u) "04 von 08: zmeventnotification installieren"  | tee -a  ~/Final
                 yes | perl -MCPAN -e "install Net::MQTT::Simple"
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
-echo $(date -u) "05 von 08: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "07 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/FinalInstall.log
                 # Face recognition, umschalten auf CUDA. Bisherigen (CPU-) dlib de-installieren
                 sudo -H pip3 uninstall dlib
                 sudo -H pip3 uninstall face-recognition
@@ -178,7 +206,7 @@ echo $(date -u) "05 von 08: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 cd ~
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
-echo $(date -u) "06 von 08: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/FinalInstall.log
                 #opencv compilieren
                 apt -y install python-dev python3-dev
                 apt -y install python-pip
@@ -233,7 +261,7 @@ echo $(date -u) "06 von 08: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 chmod 640 /etc/zm/conf.d/*.conf
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
-echo $(date -u) "07 von 08: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "09 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstall.log
                 cp -r ~/zoneminder/Bugfixes/face_train.py /usr/local/lib/python3.6/dist-packages/pyzm/ml/face_train.py
                 echo "Installation beendet, bitte Rechner neu starten (reboot)"
                 echo ""
@@ -267,7 +295,7 @@ echo $(date -u) "07 von 08: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstal
                 a2enmod ssl
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/FinalInstall.log
-echo $(date -u) "07 von 08: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstall.log
+echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstall.log
                 #Bugfixes
                 python3 -m install numpy==1.16.1
                 python3 -m install protobuf==3.3.0
