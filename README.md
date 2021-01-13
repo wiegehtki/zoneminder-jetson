@@ -1,4 +1,4 @@
-# Kameraüberwachung mit Objekt- und Gesichtserkennung mittels Zoneminder, YOLO und OpenCV auf NVIDIA® Jetson™ Plattform mit CUDA® und cuDNN® by Udo Würtz, WIEGEHTKI.DE
+# Kameraüberwachung mit Objekt- und Gesichtserkennung mittels Zoneminder, YOLO und OpenCV auf NVIDIA® Jetson™ Plattform mit CUDA® und cuDNN® 
 
 ### Installation von Zoneminder 1.34.x, OpenCV 4.5.1 und YOLO (Tiny, v3 und v4) unter NVIDIA® JP4.4.1
 
