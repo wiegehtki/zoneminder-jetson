@@ -112,7 +112,7 @@ Falls nicht, hier die Download-Links:
     * Anmeldemaske erscheint, neu anmelden
     * `Options->System` anwählen und `OPT_USE_AUTH` **de-aktivieren**
     * `AUTH_RELAY` auf **none** setzen
-    * `AUTH_HASH_SECRET` auf irgendeinen Wert setzen
+    * `AUTH_HASH_SECRET` auf irgendeinen Wert setzen (z.B. einfach mal 10mal auf die Tastatur tippen ohne hinzuschauen)
     * Wieder `Save` anklicken und Einstellungen speichern
     
     Der Fehler sollte jetzt nicht mehr auftreten.
