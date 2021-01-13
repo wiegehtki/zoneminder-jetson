@@ -52,7 +52,7 @@ Einloggen und dann die erste Stufe der Installation starten, der Rechner reboote
        mv ~/zoneminder-jetson ~/zoneminder
        cp zoneminder/*sh .
        sudo chmod +x *sh
-       ./Initial_ARM.sh      
+       ./Install.sh      
 ```
 
 #### Bevor wir weitermachen können, müssen im Verzeichnis `~/zoneminder/Anzupassen` verschiedene Dateien modifiziert werden.
@@ -86,14 +86,6 @@ Das gleiche gilt für `ZM_PORTAL=https://<PORTAL-ADRESSE>/zm` und `ZM_API_PORTAL
        object_labels={{base_data_path}}/models/yolov4/coco.names
 ```
 
-**Wichtig:** Der Installationsprozess ist in 2 Schritte unterteilt, **Initial.sh** und **Final.sh** und erfordert ein paar Betsätigungen durch den Benutzer.
-3.  Erneut Einloggen und dann die zweite und letzte Stufe der Installation starten:
-```
-       sudo su
-       cd ~
-       ./Final_ARM.sh  
-```
-
 #### Kontrolle des Installationsfortschritts
 
 Ein weiteres Terminalfenster öffnen und mit `cat Installation.log` bzw. `cat FinalInstall.log` den Fortschritt der Installationen kontrollieren.
@@ -112,17 +104,17 @@ Falls nicht, hier die Download-Links:
 ### Bekannte Fehler und deren Behebungen
 1. **Datenbank-Verbindungen werden immer mehr und die Verbindung zur Datenbank geht verloren** 
    Wenn dieser Fehler auftritt (gesehen bei **Zoneminder 1.34.22**), dann folgende Schritte durchführen:
-	* Rechner rebooten
-	* ZM-Site aufrufen
-	* `Options->Users` aufrufen und dem `admin` - Benutzer ein Kennwort vergeben
-	* `Options->System` anwählen und `OPT_USE_AUTH` aktivieren
-	* Ganz unten `Save` anklicken und Einstellungen speichern
-	* `Options->System` anwählen und `OPT_USE_AUTH` **de-aktivieren**
-	* `AUTH_RELAY` auf **none** setzen
-	* `AUTH_HASH_SECRET` auf irgendeinen Wert setzen
-	* Wieder `Save` anklicken und Einstellungen speichern
-	
-	Der Fehler sollte jetzt nicht mehr auftreten.
-	
+    * Rechner rebooten
+    * ZM-Site aufrufen
+    * `Options->Users` aufrufen und dem `admin` - Benutzer ein Kennwort vergeben
+    * `Options->System` anwählen und `OPT_USE_AUTH` aktivieren
+    * Ganz unten `Save` anklicken und Einstellungen speichern
+    * `Options->System` anwählen und `OPT_USE_AUTH` **de-aktivieren**
+    * `AUTH_RELAY` auf **none** setzen
+    * `AUTH_HASH_SECRET` auf irgendeinen Wert setzen
+    * Wieder `Save` anklicken und Einstellungen speichern
+    
+    Der Fehler sollte jetzt nicht mehr auftreten.
+    
 
 

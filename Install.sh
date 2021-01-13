@@ -300,6 +300,7 @@ echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/FinalInstal
                 python3 -m install numpy==1.16.1
                 python3 -m install protobuf==3.3.0
                 chown -R  www-data:www-data /etc/apache2/ssl
+                yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
                 echo ""
                 echo "Installation abgeschlossen, bitte Log prüfen und Jetson neu starten (reboot)"
 
