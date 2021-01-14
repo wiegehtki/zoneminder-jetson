@@ -51,6 +51,11 @@ Einloggen und dann die erste Stufe der Installation starten, der Rechner reboote
        mv ~/zoneminder-jetson ~/zoneminder
        cp zoneminder/*sh .
        sudo chmod +x *sh
+```
+
+Danach die Anpassungen vornehmen und die Installation starten:
+
+```
        ./Install.sh      
 ```
 
