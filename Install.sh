@@ -39,16 +39,16 @@ echo $(date -u) "# V2.0.0 (Rev a), 12.01.2021                                   
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "01 von 04: Linux - Check"    | tee -a  ~/Installation.log
+echo $(date -u) "01 von 10: Linux - Check"    | tee -a  ~/Installation.log
                 uname -m && cat /etc/*release | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "02 von 04: System - Update & Upgrade"  | tee -a  ~/Installation.log
+echo $(date -u) "02 von 10: System - Update & Upgrade"  | tee -a  ~/Installation.log
                 apt -y update
                 apt -y dist-upgrade
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "03 von 04 Diverse Pakete installieren wie Compiler, Headers usw., welche für CUDA benötigt werden"  | tee -a  ~/Installation.log
+echo $(date -u) "03 von 10 Diverse Pakete installieren wie Compiler, Headers usw., welche für CUDA benötigt werden"  | tee -a  ~/Installation.log
                 apt -y install gcc make nano letsencrypt
                 apt -y install build-essential cmake pkg-config unzip yasm git checkinstall
                 apt -y install libjpeg-dev libpng-dev libtiff-dev liblzma-doc
