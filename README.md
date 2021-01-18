@@ -2,8 +2,7 @@
 
 ### Installation von Zoneminder 1.34.x, OpenCV 4.5.1 und YOLO (Tiny, v3 und v4) unter NVIDIA® JP4.4.1
 
-#### Nach der Installation dieser Software könnt Ihr:
-* Mit Zoneminder Eure IP-Kameras einbinden und mobil verfügbar machen
+#### Nach der Installation dieser Software könnt Ihr: * Mit Zoneminder Eure IP-Kameras einbinden und mobil verfügbar machen
 * Den Livestream mit OpenCV und YOLO auf Objekte untersuchen
 * Erkannte Objekte, z.B. Personen, zuverlässig melden lassen
 * Gesichter trainieren (Achtung: Datenschutzgesetz beachten!)
