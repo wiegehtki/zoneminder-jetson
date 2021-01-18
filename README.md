@@ -13,9 +13,9 @@
 
 
 #### Videos zu diesem Projekt (und weitere) findet Ihr auf https://wiegehtki.de
-* **Intro:** https://www.youtube.com/watch?v=_ndzsZ66SLQ
-* **Basiswissen Objekterkennung mit YOLO:** https://www.youtube.com/watch?v=WXuqsRGIyg4&t=1586s
-* **Technologischer Deep Dive in YOLO:** https://www.youtube.com/watch?v=KMg6BwNDqBY
+* **Einführung und Softwareinstallation:** https://youtu.be/USUBtwMYVYg
+* **Inbetriebnahme:** https://youtu.be/oek1nLKK53E
+
 
 #### Das neueste Image (JP 4.4.1) für den Nano oder Xavier NX könnt Ihr hier herunterladen: https://developer.nvidia.com/embedded/downloads oder über den NVIDIA® Download Center suchen, falls bestimmte Versionen benötigt werden.
  
