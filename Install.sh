@@ -297,8 +297,8 @@ echo $(date -u) "09 von 10: Anpassungen Zoneminder"  | tee -a  ~/Installation.lo
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/Installation.log
                 #Bugfixes
-                python3 -m install numpy==1.16.1
-                python3 -m install protobuf==3.3.0
+                python3 -m pip install numpy==1.16.1
+                python3 -m pip install protobuf==3.3.0
                 chown -R  www-data:www-data /etc/apache2/ssl
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
                 echo ""
