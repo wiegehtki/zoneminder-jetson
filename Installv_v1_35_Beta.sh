@@ -39,16 +39,16 @@ echo $(date -u) "# V2.0.0 (Rev a), 12.01.2021                                   
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "01 von 10: Linux - Check"    | tee -a  ~/Installation.log
+echo $(date -u) "01 von 11: Linux - Check"    | tee -a  ~/Installation.log
                 uname -m && cat /etc/*release | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "02 von 10: System - Update & Upgrade"  | tee -a  ~/Installation.log
+echo $(date -u) "02 von 11: System - Update & Upgrade"  | tee -a  ~/Installation.log
                 apt -y update
                 apt -y dist-upgrade
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "03 von 10 Diverse Pakete installieren wie Compiler, Headers usw., welche für CUDA benötigt werden"  | tee -a  ~/Installation.log
+echo $(date -u) "03 von 11 Diverse Pakete installieren wie Compiler, Headers usw., welche für CUDA benötigt werden"  | tee -a  ~/Installation.log
                 apt -y install gcc make nano letsencrypt
                 apt -y install build-essential cmake pkg-config unzip yasm git checkinstall
                 apt -y install libjpeg-dev libpng-dev libtiff-dev liblzma-doc
@@ -71,7 +71,7 @@ echo $(date -u) "03 von 10 Diverse Pakete installieren wie Compiler, Headers usw
                 cd ~
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "04 von 10: Systemupdate und Apache, MySQL und PHP installieren"  | tee -a  ~/Installation.log
+echo $(date -u) "04 von 11: Systemupdate und Apache, MySQL und PHP installieren"  | tee -a  ~/Installation.log
                 apt -y upgrade
                 apt -y dist-upgrade
 
@@ -99,7 +99,7 @@ echo $(date -u) "04 von 10: Systemupdate und Apache, MySQL und PHP installieren"
                 systemctl restart mysql
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und Zoneminder installieren"  | tee -a  ~/Installation.log
+echo $(date -u) "05 von 11: Apache konfigurieren, SSL-Zertifikate generieren und Zoneminder installieren"  | tee -a  ~/Installation.log
                 apt -y install zoneminder
                 sudo apt -y install ntp ntp-doc
                 apt -y install ssmtp mailutils net-tools wget sudo make
@@ -170,7 +170,7 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
                 systemctl start zoneminder
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/Installation.log
+echo $(date -u) "06 von 11: zmeventnotification installieren"  | tee -a  ~/Installation.log
                 sudo apt -y install python3-matplotlib libgeos-dev
                 python3 -m pip install numpy scipy ipython pandas sympy nose cython
                 python3 -m pip install future
@@ -199,7 +199,7 @@ echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/Insta
                 yes | perl -MCPAN -e "install Net::MQTT::Simple"
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "07 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/Installation.log
+echo $(date -u) "07 von 11: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/Installation.log
                 # Face recognition, umschalten auf CUDA. Bisherigen (CPU-) dlib de-installieren
                 sudo -H pip3 uninstall dlib
                 sudo -H pip3 uninstall face-recognition
@@ -212,7 +212,7 @@ echo $(date -u) "07 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 cd ~
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/Installation.log
+echo $(date -u) "08 von 11: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/Installation.log
                 #opencv compilieren
                 apt -y install python-dev python3-dev
                 apt -y install python-pip
@@ -267,7 +267,7 @@ echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 chmod 640 /etc/zm/conf.d/*.conf
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "09 von 10: Anpassungen Zoneminder"  | tee -a  ~/Installation.log
+echo $(date -u) "09 von 11: Anpassungen Zoneminder"  | tee -a  ~/Installation.log
                 cp -r ~/zoneminder/Bugfixes/face_train.py /usr/local/lib/python3.6/dist-packages/pyzm/ml/face_train.py
                 echo "Installation beendet, bitte Rechner neu starten (reboot)"
                 echo ""
@@ -300,185 +300,172 @@ echo $(date -u) "09 von 10: Anpassungen Zoneminder"  | tee -a  ~/Installation.lo
                 chown -R root:www-data /etc/apache2/ssl/*
                 a2enmod ssl
 
-                #install required things from apt
+echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
+echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee -a  ~/Installation.log
                 installLibs(){
-                echo "Installing prerequisites"
+                echo "Notwendige Pakete installieren"
                 sudo apt-get update
                 sudo apt-get -y --force-yes install autoconf automake build-essential libass-dev libfreetype6-dev libgpac-dev \
-  libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
-  libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev
-}
-
-#install CUDA SDK
-InstallCUDASDK(){
-echo "Installing CUDA and the latest driver repositories from repositories"
-cd ~/ffmpeg_sources
-wget -c -v -nc https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.2.88-1_amd64.deb
-sudo dpkg -i cuda-repo-ubuntu1604_9.2.88-1_amd64.deb
-sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
-sudo apt-get -y update
-sudo apt-get -y install cuda
-sudo add-apt-repository ppa:graphics-drivers/ppa
-sudo apt-get update && sudo apt-get -y upgrade
-}
-
-#Install nvidia SDK
-installSDK(){
-echo "Installing the nVidia NVENC SDK."
-cd ~/ffmpeg_sources
-cd ~/ffmpeg_sources
-git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
-cd nv-codec-headers
-make
-sudo make install
-}
-
-#Compile nasm
-compileNasm(){
-echo "Compiling nasm"
-cd ~/ffmpeg_sources
-wget http://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz
-tar xzvf nasm-2.15.05.tar.gz
-cd nasm-2.15.05
-./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin"
-make -j$(nproc)
-make -j$(nproc) install
-make -j$(nproc) distclean
-}
-
-#Compile libx264
-compileLibX264(){
-echo "Compiling libx264"
-cd ~/ffmpeg_sources
-wget http://download.videolan.org/pub/x264/snapshots/last_x264.tar.bz2
-tar xjvf last_x264.tar.bz2
-cd x264-snapshot*
-PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --enable-static
-PATH="$HOME/bin:$PATH" make -j$(nproc)
-make -j$(nproc) install
-make -j$(nproc) distclean
-}
-
-#Compile libfdk-acc
-compileLibfdkcc(){
-echo "Compiling libfdk-cc"
-sudo apt-get install unzip
-cd ~/ffmpeg_sources
-wget -O fdk-aac.zip https://github.com/mstorsjo/fdk-aac/zipball/master
-unzip fdk-aac.zip
-cd mstorsjo-fdk-aac*
-autoreconf -fiv
-./configure --prefix="$HOME/ffmpeg_build" --disable-shared
-make -j$(nproc)
-make -j$(nproc) install
-make -j$(nproc) distclean
-}
-
-#Compile libmp3lame
-compileLibMP3Lame(){
-echo "Compiling libmp3lame"
-sudo apt-get install nasm
-cd ~/ffmpeg_sources
-wget http://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz
-tar xzvf lame-3.100.tar.gz
-cd lame-3.100
-./configure --prefix="$HOME/ffmpeg_build" --enable-nasm --disable-shared
-make -j$(nproc)
-make -j$(nproc) install
-make -j$(nproc) distclean
-}
-
-#Compile libopus
-compileLibOpus(){
-echo "Compiling libopus"
-cd ~/ffmpeg_sources
-wget http://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz
-tar xzvf opus-1.3.1.tar.gz
-cd opus-1.3.1
-./configure --prefix="$HOME/ffmpeg_build" --disable-shared
-make -j$(nproc)
-make -j$(nproc) install
-make -j$(nproc) distclean
-}
-
-#Compile libvpx
-compileLibPvx(){
-echo "Compiling libvpx"
-cd ~/ffmpeg_sources
-git clone https://chromium.googlesource.com/webm/libvpx
-cd libvpx
-PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --disable-examples --enable-runtime-cpu-detect --enable-vp9 --enable-vp8 \
---enable-postproc --enable-vp9-postproc --enable-multi-res-encoding --enable-webm-io --enable-better-hw-compatibility --enable-vp9-highbitdepth --enable-onthefly-bitpacking --enable-realtime-only \
---cpu=native --as=nasm
-PATH="$HOME/bin:$PATH" make -j$(nproc)
-make -j$(nproc) install
-make -j$(nproc) clean
-}
-
-#Compile ffmpeg
-compileFfmpeg(){
-echo "Compiling ffmpeg"
-cd ~/ffmpeg_sources
-git clone https://github.com/FFmpeg/FFmpeg -b master
-cd FFmpeg
-PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
-  --prefix="$HOME/ffmpeg_build" \
-  --extra-cflags="-I$HOME/ffmpeg_build/include" \
-  --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
-  --bindir="$HOME/bin" \
-  --enable-cuda-nvcc \
-  --enable-cuvid \
-  --enable-libnpp \
-  --extra-cflags="-I/usr/local/cuda/include/" \
-  --extra-ldflags=-L/usr/local/cuda/lib64/ \
-  --enable-gpl \
-  --enable-libass \
-  --enable-libfdk-aac \
-  --enable-vaapi \
-  --enable-libfreetype \
-  --enable-libmp3lame \
-  --enable-libopus \
-  --enable-libtheora \
-  --enable-libvorbis \
-  --enable-libvpx \
-  --enable-libx264 \
-  --enable-nonfree \
-  --enable-nvenc \
-  --pkg-config-flags="--static"
-  
-PATH="$HOME/bin:$PATH" make -j$(nproc)
-make -j$(nproc) install
-make -j$(nproc) distclean
-hash -r
-}
-
-#The process
-export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64\
-                         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-apt-get install libopus-dev
-
-#Monitoring
-sudo -H pip install -U jetson-stats
-apt -y install atop
-pip install nvidia-ml-py3
-
-cd ~
-mkdir ffmpeg_sources
-installLibs
-InstallCUDASDK
-installSDK
-compileNasm
-compileLibX264
-compileLibfdkcc
-compileLibMP3Lame
-compileLibOpus
-compileLibPvx
-compileFfmpeg
-echo "Complete!"
-
+                     libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
+                     libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libopus-dev
+                }
+                  
+               #Install nvidia SDK
+               installSDK(){
+               echo "Installieren NVIDIA Codecs."
+               cd ~/ffmpeg_sources
+               cd ~/ffmpeg_sources
+               git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+               cd nv-codec-headers
+               make
+               sudo make install
+               }
+               
+               #nasm
+               compileNasm(){
+               echo "Kompilieren von nasm"
+               cd ~/ffmpeg_sources
+               wget http://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz
+               tar xzvf nasm-2.15.05.tar.gz
+               cd nasm-2.15.05
+               ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin"
+               make -j$(nproc)
+               make -j$(nproc) install
+               make -j$(nproc) distclean
+               }
+               
+               #libx264
+               compileLibX264(){
+               echo "Kompilieren von libx264"
+               cd ~/ffmpeg_sources
+               wget http://download.videolan.org/pub/x264/snapshots/last_x264.tar.bz2
+               tar xjvf last_x264.tar.bz2
+               cd x264-snapshot*
+               PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --enable-static
+               PATH="$HOME/bin:$PATH" make -j$(nproc)
+               make -j$(nproc) install
+               make -j$(nproc) distclean
+               }
+               
+               #libfdk-acc
+               compileLibfdkcc(){
+               echo "Kompilieren von libfdk-cc"
+               sudo apt-get install unzip
+               cd ~/ffmpeg_sources
+               wget -O fdk-aac.zip https://github.com/mstorsjo/fdk-aac/zipball/master
+               unzip fdk-aac.zip
+               cd mstorsjo-fdk-aac*
+               autoreconf -fiv
+               ./configure --prefix="$HOME/ffmpeg_build" --disable-shared
+               make -j$(nproc)
+               make -j$(nproc) install
+               make -j$(nproc) distclean
+               }
+               
+               #libmp3lame
+               compileLibMP3Lame(){
+               echo "Kompilieren von libmp3lame"
+               sudo apt-get install nasm
+               cd ~/ffmpeg_sources
+               wget http://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz
+               tar xzvf lame-3.100.tar.gz
+               cd lame-3.100
+               ./configure --prefix="$HOME/ffmpeg_build" --enable-nasm --disable-shared
+               make -j$(nproc)
+               make -j$(nproc) install
+               make -j$(nproc) distclean
+               }
+               
+               #libopus
+               compileLibOpus(){
+               echo "Kompilieren von libopus"
+               cd ~/ffmpeg_sources
+               wget http://downloads.xiph.org/releases/opus/opus-1.3.1.tar.gz
+               tar xzvf opus-1.3.1.tar.gz
+               cd opus-1.3.1
+               ./configure --prefix="$HOME/ffmpeg_build" --disable-shared
+               make -j$(nproc)
+               make -j$(nproc) install
+               make -j$(nproc) distclean
+               }
+               
+               #libvpx
+               compileLibPvx(){
+               echo "Kompilieren von libvpx"
+               cd ~/ffmpeg_sources
+               git clone https://chromium.googlesource.com/webm/libvpx
+               cd libvpx
+               PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --disable-examples --enable-runtime-cpu-detect --enable-vp9 --enable-vp8 \
+               --enable-postproc --enable-vp9-postproc --enable-multi-res-encoding --enable-webm-io --enable-better-hw-compatibility --enable-vp9-highbitdepth --enable-onthefly-bitpacking --enable-realtime-only \
+               --cpu=native --as=nasm
+               PATH="$HOME/bin:$PATH" make -j$(nproc)
+               make -j$(nproc) install
+               make -j$(nproc) clean
+               }
+               
+               #ffmpeg
+               compileFfmpeg(){
+               echo "Kompilieren von ffmpeg"
+               cd ~/ffmpeg_sources
+               git clone https://github.com/FFmpeg/FFmpeg -b master
+               cd FFmpeg
+               PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
+                 --prefix="$HOME/ffmpeg_build" \
+                 --extra-cflags="-I$HOME/ffmpeg_build/include" \
+                 --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
+                 --bindir="$HOME/bin" \
+                 --enable-cuda-nvcc \
+                 --enable-cuvid \
+                 --enable-libnpp \
+                 --extra-cflags="-I/usr/local/cuda/include/" \
+                 --extra-ldflags=-L/usr/local/cuda/lib64/ \
+                 --enable-gpl \
+                 --enable-libass \
+                 --enable-libfdk-aac \
+                 --enable-vaapi \
+                 --enable-libfreetype \
+                 --enable-libmp3lame \
+                 --enable-libopus \
+                 --enable-libtheora \
+                 --enable-libvorbis \
+                 --enable-libvpx \
+                 --enable-libx264 \
+                 --enable-nonfree \
+                 --enable-nvenc \
+                 --pkg-config-flags="--static"
+                 
+               PATH="$HOME/bin:$PATH" make -j$(nproc)
+               make -j$(nproc) install
+               make -j$(nproc) distclean
+               hash -r
+               }
+               
+               #The process
+               export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
+               export LD_LIBRARY_PATH=/usr/local/cuda/lib64\
+                                        ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+               
+               #Monitoring
+               #sudo -H pip install -U jetson-stats
+               #apt -y install atop
+               #pip install nvidia-ml-py3
+               
+               cd ~
+               mkdir ffmpeg_sources
+               installLibs
+               InstallCUDASDK
+               installSDK
+               compileNasm
+               compileLibX264
+               compileLibfdkcc
+               compileLibMP3Lame
+               compileLibOpus
+               compileLibPvx
+               compileFfmpeg
+               echo "Libraries und ffmpeg kompiliert!"
+               
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
-echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/Installation.log
+echo $(date -u) "11 von 11: Bugfixes kopieren und Ende"  | tee -a  ~/Installation.log
                 #Bugfixes
                 python3 -m pip install protobuf==3.3.0
                 python3 -m pip install numpy==1.16.1
