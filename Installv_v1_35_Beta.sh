@@ -108,7 +108,10 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
                 apt -y install --no-install-recommends libvlc-dev libvlccore-dev vlc
 
                 mysql -uroot --skip-password < /usr/share/zoneminder/db/zm_create.sql
-                mysql -uroot --skip-password -e "grant lock tables,alter,drop,select,insert,update,delete,create,index,alter routine,create routine, trigger,execute on zm.* to 'zmuser'@localhost identified by 'zmpass';"
+                #mysql -uroot --skip-password -e "grant lock tables,alter,drop,select,insert,update,delete,create,index,alter routine,create routine, trigger,execute on zm.* to 'zmuser'@localhost identified by 'zmpass';"
+                mysql -uroot --skip-password < ~/sql/mod.sql
+                mysqladmin -uroot --skip-password reload
+                mysql -u zmuser --skip-password zm < /usr/share/zoneminder/db/zm_update-1.35.4.sql
 
                 chown root:www-data /etc/zm/zm.conf
                 chown -R www-data:www-data /usr/share/zoneminder/
