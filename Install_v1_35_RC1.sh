@@ -413,6 +413,7 @@ echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee 
                cd ~/ffmpeg_sources
                git clone https://github.com/FFmpeg/FFmpeg -b master
                cd FFmpeg
+
                PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
                  --prefix="$HOME/ffmpeg_build" \
                  --extra-cflags="-I$HOME/ffmpeg_build/include" \
@@ -434,6 +435,7 @@ echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee 
                  --enable-libvorbis \
                  --enable-libvpx \
                  --enable-libx264 \
+                 --enable-libx265 \
                  --enable-nonfree \
                  --enable-nvenc \
                  --pkg-config-flags="--static"
