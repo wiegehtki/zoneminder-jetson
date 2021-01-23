@@ -2,7 +2,6 @@
 
                 #Es wird empfohlen root als Benutzer zu verwenden
                 Benutzer="root"
-
                 export DEBCONF_NONINTERACTIVE_SEEN="true"
                 export DEBIAN_FRONTEND="noninteractive"
                 export PHP_VERS="7.2"
@@ -13,6 +12,11 @@
                 export SHMEM="50%"
                 export MULTI_PORT_START="0"
                 export MULTI_PORT_END="0"
+
+                #Vorbelegung CompilerFlags und Warnungen zu unterdrücken die durch automatisch generierten Code schnell mal entstehen können und keine wirkliche Relevanz haben
+                export CFLAGS=$CFLAGS" -w"
+                export CPPFLAGS=$CPPFLAGS" -w"
+                export CXXFLAGS=$CXXFLAGS" -w"
 
                 if [ "$(whoami)" != $Benutzer ]; then
                         echo $(date -u) "Script muss als Benutzer $Benutzer ausgeführt werden!"
@@ -35,7 +39,7 @@ echo $(date -u) "###############################################################
 echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS            By WIEGEHTKI.DE #" | tee -a  ~/Installation.log
 echo $(date -u) "# Zur freien Verwendung. Ohne Gewähr und nur auf Testsystemen anzuwenden                                        #" | tee -a  ~/Installation.log
 echo $(date -u) "#                                                                                                               #" | tee -a  ~/Installation.log
-echo $(date -u) "# V2.0.0 (Rev a), 12.01.2021                                                                                    #" | tee -a  ~/Installation.log
+echo $(date -u) "# V2.0.0 (Rev b), 23.01.2021                                                                                    #" | tee -a  ~/Installation.log
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
@@ -111,7 +115,7 @@ echo $(date -u) "05 von 11: Apache konfigurieren, SSL-Zertifikate generieren und
                 #mysql -uroot --skip-password -e "grant lock tables,alter,drop,select,insert,update,delete,create,index,alter routine,create routine, trigger,execute on zm.* to 'zmuser'@localhost identified by 'zmpass';"
                 mysql -uroot --skip-password < ~/zoneminder/sql/mod.sql
                 mysqladmin -uroot --skip-password reload
-                mysql -u zmuser --skip-password zm < /usr/share/zoneminder/db/zm_update-1.35.4.sql
+                mysql -u zmuser -pzmpass  -D zm  < /usr/share/zoneminder/db/zm_update-1.35.16.sql
 
                 chown root:www-data /etc/zm/zm.conf
                 chown -R www-data:www-data /usr/share/zoneminder/
@@ -325,7 +329,7 @@ echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee 
                compileNasm(){
                echo "Kompilieren von nasm"
                cd ~/ffmpeg_sources
-               wget http://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz
+               wget https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz
                tar xzvf nasm-2.15.05.tar.gz
                cd nasm-2.15.05
                ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin"
@@ -338,9 +342,9 @@ echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee 
                compileLibX264(){
                echo "Kompilieren von libx264"
                cd ~/ffmpeg_sources
-               wget http://download.videolan.org/pub/x264/snapshots/last_x264.tar.bz2
-               tar xjvf last_x264.tar.bz2
-               cd x264-snapshot*
+               wget https://download.videolan.org/pub/x264/snapshots/x264-snapshot-20191217-2245-stable.tar.bz2 
+               tar xjvf x264-snapshot-20191217-2245-stable.tar.bz2
+               cd x264-snapshot-20191217-2245-stable
                PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --enable-static
                PATH="$HOME/bin:$PATH" make -j$(nproc)
                make -j$(nproc) install
@@ -462,6 +466,7 @@ echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee 
                compileLibOpus
                compileLibPvx
                compileFfmpeg
+               cp ~/bin/ffmpeg  /usr/bin/ -r
                echo "Libraries und ffmpeg kompiliert!"
                
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
@@ -472,7 +477,7 @@ echo $(date -u) "11 von 11: Bugfixes kopieren und Ende"  | tee -a  ~/Installatio
                 chown -R  www-data:www-data /etc/apache2/ssl
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
                 echo ""
-                echo "Installation abgeschlossen, bitte Log prüfen und Jetson neu starten (reboot)"
+                echo "Installation abgeschlossen, bitte Log prüfen, hosts - Datei aktualisieren (siehe Video auf WIEGEHTKI.DE) und Jetson neu starten (reboot)"
 
                 #Test:
                 #https://zm.wiegehtki.de/zm/api/host/getVersion.json
