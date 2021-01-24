@@ -392,7 +392,17 @@ echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee 
                make -j$(nproc) install
                make -j$(nproc) distclean
                }
-               
+
+               #libx265
+               compileLibX265(){
+               echo "Kompilieren von libx265"               
+               cd ~
+               git clone https://bitbucket.org/multicoreware/x265_git
+               cd x265_git/build/linux
+               cmake -G "Unix Makefiles" ../../source
+               make install
+               }
+
                #libvpx
                compileLibPvx(){
                echo "Kompilieren von libvpx"
@@ -463,6 +473,7 @@ echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee 
                installSDK
                compileNasm
                compileLibX264
+               compileLibX265
                compileLibfdkcc
                compileLibMP3Lame
                compileLibOpus
