@@ -6,14 +6,14 @@
                 export DEBIAN_FRONTEND="noninteractive"
                 export PHP_VERS="7.2"
                 export OPENCV_VER="4.5.1"
-				export PYTHON_VER="3.6"
+                export PYTHON_VER="3.6"
                 export OPENCV_URL=https://github.com/opencv/opencv/archive/$OPENCV_VER.zip
                 export OPENCV_CONTRIB_URL=https://github.com/opencv/opencv_contrib/archive/$OPENCV_VER.zip
                 export TZ="Europe/Berlin"
                 export SHMEM="50%"
                 export MULTI_PORT_START="0"
                 export MULTI_PORT_END="0"
-
+ 
                 #Vorbelegung CompilerFlags und Warnungen zu unterdrücken die durch automatisch generierten Code schnell mal entstehen können und keine wirkliche Relevanz haben
                 export CFLAGS=$CFLAGS" -w"
                 export CPPFLAGS=$CPPFLAGS" -w"
