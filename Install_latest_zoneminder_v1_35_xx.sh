@@ -5,7 +5,8 @@
                 export DEBCONF_NONINTERACTIVE_SEEN="true"
                 export DEBIAN_FRONTEND="noninteractive"
                 export PHP_VERS="7.2"
-                export OPENCV_VER=4.5.1
+                export OPENCV_VER="4.5.1"
+				export PYTHON_VER="3.6"
                 export OPENCV_URL=https://github.com/opencv/opencv/archive/$OPENCV_VER.zip
                 export OPENCV_CONTRIB_URL=https://github.com/opencv/opencv_contrib/archive/$OPENCV_VER.zip
                 export TZ="Europe/Berlin"
@@ -208,7 +209,7 @@ echo $(date -u) "07 von 11: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 sudo -H pip3 uninstall dlib
                 sudo -H pip3 uninstall face-recognition
                 rm /usr/bin/python
-                ln -sf python3.6 /usr/bin/python
+                ln -sf python$PYTHON_VER /usr/bin/python
                 apt -y install libopenblas-dev liblapack-dev libblas-dev # this is the important part
                 cd ~/zoneminder/dlib
                 python ./setup.py install 
@@ -272,7 +273,7 @@ echo $(date -u) "08 von 11: Gesichtserkennung und cuDNN installieren"  | tee -a 
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "09 von 11: Anpassungen Zoneminder"  | tee -a  ~/Installation.log
-                cp -r ~/zoneminder/Bugfixes/face_train.py /usr/local/lib/python3.6/dist-packages/pyzm/ml/face_train.py
+                cp -r ~/zoneminder/Bugfixes/face_train.py /usr/local/lib/python$PYTHON_VER/dist-packages/pyzm/ml/face_train.py
                 echo "Installation beendet, bitte Rechner neu starten (reboot)"
                 echo ""
 
