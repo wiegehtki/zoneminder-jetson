@@ -113,9 +113,9 @@ echo $(date -u) "05 von 11: Apache konfigurieren, SSL-Zertifikate generieren und
 
                 mysql -uroot --skip-password < /usr/share/zoneminder/db/zm_create.sql
                 #mysql -uroot --skip-password -e "grant lock tables,alter,drop,select,insert,update,delete,create,index,alter routine,create routine, trigger,execute on zm.* to 'zmuser'@localhost identified by 'zmpass';"
-                mysql -uroot --skip-password < ~/zoneminder/sql/mod.sql
+                #mysql -uroot --skip-password < ~/zoneminder/sql/mod.sql
                 mysqladmin -uroot --skip-password reload
-                mysql -u zmuser -pzmpass  -D zm  < /usr/share/zoneminder/db/zm_update-1.35.16.sql
+                #mysql -u zmuser -pzmpass  -D zm  < /usr/share/zoneminder/db/zm_update-1.35.16.sql
 
                 chown root:www-data /etc/zm/zm.conf
                 chown -R www-data:www-data /usr/share/zoneminder/
@@ -458,11 +458,10 @@ echo $(date -u) "10 von 11: Libraries und FFMPeg für CUDA installieren"  | tee 
                
                #The process
                export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
-               export LD_LIBRARY_PATH=/usr/local/cuda/lib64\
-                                        ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+               export LD_LIBRARY_PATH=/usr/local/cuda/lib64\${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
                
-               #Monitoring
-               #sudo -H pip install -U jetson-stats
+               #Monitoring jtop installieren
+               sudo -H pip install -U jetson-stats
                #apt -y install atop
                #pip install nvidia-ml-py3
                
@@ -489,6 +488,8 @@ echo $(date -u) "11 von 11: Bugfixes kopieren und Ende"  | tee -a  ~/Installatio
                 python3 -m pip install numpy==1.16.1
                 chown -R  www-data:www-data /etc/apache2/ssl
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
+                cd ~
+                zmupdate.pl -f
                 echo ""
                 echo "Installation abgeschlossen, bitte Log prüfen, hosts - Datei aktualisieren (siehe Video auf WIEGEHTKI.DE) und Jetson neu starten (reboot)"
 
