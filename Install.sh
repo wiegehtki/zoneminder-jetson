@@ -110,7 +110,7 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
                 mysql -uroot --skip-password < /usr/share/zoneminder/db/zm_create.sql
                 mysql -uroot --skip-password -e "grant lock tables,alter,drop,select,insert,update,delete,create,index,alter routine,create routine, trigger,execute on zm.* to 'zmuser'@localhost identified by 'zmpass';"
 
-                chown root:www-data /etc/zm/zm.conf
+                chown www-data:www-data /etc/zm/zm.conf
                 chown -R www-data:www-data /usr/share/zoneminder/
 
                 a2enmod cgi
