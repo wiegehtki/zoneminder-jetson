@@ -84,7 +84,7 @@ echo $(date -u) "04 von 10: Systemupdate und Apache, MySQL und PHP installieren"
                 apt -y dist-upgrade
 
                 apt -y install python3-pip cmake
-                pip3 install --upgrade pip
+                #pip3 install --upgrade pip
                 apt -y install libopenblas-dev liblapack-dev libblas-dev
 
                 #Mysql
@@ -101,6 +101,8 @@ echo $(date -u) "04 von 10: Systemupdate und Apache, MySQL und PHP installieren"
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und Zoneminder installieren"  | tee -a  ~/Installation.log
                 apt -y install zoneminder
+                apt -y update
+                apt -y dist-upgrade
                 sudo apt -y install ntp ntp-doc
                 apt -y install ssmtp mailutils net-tools wget sudo make
                 apt -y install php$PHP_VERS php$PHP_VERS-fpm libapache2-mod-php$PHP_VERS php$PHP_VERS-mysql php$PHP_VERS-gd
@@ -265,10 +267,8 @@ echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "09 von 10: Anpassungen Zoneminder"  | tee -a  ~/Installation.log
-                cp -r ~/zoneminder/bugfixes/face_train.py /usr/local/lib/python3.6/dist-packages/pyzm/ml/face_train.py
-                echo "Installation beendet, bitte Rechner neu starten (reboot)"
-                echo ""
-
+                #cp -r ~/zoneminder/bugfixes/face_train.py /usr/local/lib/python3.6/dist-packages/pyzm/ml/face_train.py
+                
                 cp -r ~/zoneminder/Anzupassen/. /etc/zm/.
                 # Fix memory issue
                 echo "Setzen shared memory auf :" $SHMEM "von `awk '/MemTotal/ {print $2}' /proc/meminfo` bytes"  | tee -a  ~/Installation.log
