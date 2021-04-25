@@ -35,7 +35,7 @@ echo $(date -u) "###############################################################
 echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS            By WIEGEHTKI.DE #" | tee -a  ~/Installation.log
 echo $(date -u) "# Zur freien Verwendung. Ohne Gewähr und nur auf Testsystemen anzuwenden                                        #" | tee -a  ~/Installation.log
 echo $(date -u) "#                                                                                                               #" | tee -a  ~/Installation.log
-echo $(date -u) "# V2.0.0 (Rev a), 12.01.2021                                                                                    #" | tee -a  ~/Installation.log
+echo $(date -u) "# V2.0.1 (Rev b), 12.01.2021                                                                                    #" | tee -a  ~/Installation.log
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
@@ -304,6 +304,8 @@ echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/Installatio
                 python3 -m pip install numpy==1.16.1
                 chown -R  www-data:www-data /etc/apache2/ssl
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
+                mysql_tzinfo_to_sql /usr/share/zoneinfo/Europe/ | sudo mysql -u root mysql
+                sudo mysql -e "SET GLOBAL time_zone = 'Berlin';"
                 echo ""
                 echo "Installation abgeschlossen, bitte Log prüfen und Jetson neu starten (reboot)"
 
