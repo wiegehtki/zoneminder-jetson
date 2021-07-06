@@ -127,18 +127,24 @@ echo $(date -u) "05 von 11: Apache konfigurieren, SSL-Zertifikate generieren und
                 a2enmod expires
                 a2enmod headers
 
-                if [[ $(cat /etc/timezone) != "$TZ" ]] ; then
-                         echo "Setzen der Zeitzone auf: $TZ"
-                         echo $TZ > /etc/timezone
-                         ln -fs /usr/share/zoneinfo/$TZ /etc/localtime
-                         dpkg-reconfigure tzdata -f noninteractive
-                         echo "Datum: `date`"
+                if [ -f /etc/php/$PHP_VERS/cli/php.ini ]; then
+                    sed -i "s|^;date.timezone =.*|date.timezone = ${TZ}|" /etc/php/$PHP_VERS/cli/php.ini
+                fi
+                if [ -f /etc/php/$PHP_VERS/apache2/php.ini ]; then
+                    sed -i "s|^;date.timezone =.*|date.timezone = ${TZ}|" /etc/php/$PHP_VERS/apache2/php.ini
+                fi
+                if [ -f /etc/php/$PHP_VERS/fpm/php.ini ]; then
+                    sed -i "s|^;date.timezone =.*|date.timezone = ${TZ}|" /etc/php/$PHP_VERS/fpm/php.ini
                 fi
                 
-                sed -i "s|^;date.timezone =.*|date.timezone = ${TZ}|" /etc/php/$PHP_VERS/cli/php.ini
-                sed -i "s|^;date.timezone =.*|date.timezone = ${TZ}|" /etc/php/$PHP_VERS/apache2/php.ini
-                sed -i "s|^;date.timezone =.*|date.timezone = ${TZ}|" /etc/php/$PHP_VERS/fpm/php.ini
-
+                if [[ $(cat /etc/timezone) != "$TZ" ]] ; then
+                    echo "Setzen der Zeitzone auf: $TZ"
+                    echo $TZ > /etc/timezone
+                    ln -fs /usr/share/zoneinfo/$TZ /etc/localtime
+                    dpkg-reconfigure tzdata -f noninteractive
+                    echo "Datum: `date`"
+                fi
+                
                 mkdir /etc/apache2/ssl/
                 mkdir /etc/zm/apache2/
                 mkdir /etc/zm/apache2/ssl/
