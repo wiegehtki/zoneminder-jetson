@@ -4,7 +4,7 @@
                 Benutzer="root"
                 export DEBCONF_NONINTERACTIVE_SEEN="true"
                 export DEBIAN_FRONTEND="noninteractive"
-                export PHP_VERS="7.2"
+                export PHP_VERS="7.4"
                 export OPENCV_VER="4.5.1"
                 export PYTHON_VER="3.6"
                 export OPENCV_URL=https://github.com/opencv/opencv/archive/$OPENCV_VER.zip
@@ -67,35 +67,39 @@ echo $(date -u) "03 von 11 Diverse Pakete installieren wie Compiler, Headers usw
                 ln -s -f ../libv4l1-videodev.h videodev.h
                 cd ~
                 apt -y install python3-testresources
-                apt -y install libtbb-dev tbb-examples libtbb-doc
+                #pt -y install libtbb-dev 
+                #tbb-examples libtbb-doc
                 apt -y install libatlas-base-dev gfortran 
                 apt -y install libprotobuf-dev protobuf-compiler
                 apt -y install libgoogle-glog-dev libgflags-dev
                 apt -y install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen
-                apt -y install gcc-6
+                #apt -y install gcc-6
                 cd ~
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "04 von 11: Systemupdate und Apache, MySQL und PHP installieren"  | tee -a  ~/Installation.log
-                apt -y upgrade
-                apt -y dist-upgrade
+                #apt -y upgrade
+                #apt -y dist-upgrade
 
                 apt -y install tasksel
-                tasksel install lamp-server
-     
+                     
                 add-apt-repository -y ppa:iconnor/zoneminder-master
                 apt -y update
                 apt -y upgrade
                 apt -y dist-upgrade
-
+                
+                tasksel install lamp-server
                 apt -y install python3-pip cmake
                 pip3 install --upgrade pip
                 apt -y install libopenblas-dev liblapack-dev libblas-dev
 
                 #Mysql
-                rm /etc/mysql/my.cnf  
-                cp /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/my.cnf
-
+                  
+                if [ -f /etc/mysql/mysql.conf.d/mysqld.cnf ]; then
+                    rm /etc/mysql/my.cnf
+                    cp /etc/mysql/mysql.conf.d/mysqld.cnf /etc/mysql/my.cnf
+                fi
+                
                 echo "default-time-zone='+01:00'" >> /etc/mysql/my.cnf
                 echo "sql_mode        = NO_ENGINE_SUBSTITUTION" >> /etc/mysql/my.cnf
                 mysql_tzinfo_to_sql /usr/share/zoneinfo/Europe/ | sudo mysql -u root mysql
@@ -170,7 +174,7 @@ echo $(date -u) "05 von 11: Apache konfigurieren, SSL-Zertifikate generieren und
                 #chown root:root /config/keys
                 chmod 777 /etc/apache2/ssl
                 a2enmod proxy_fcgi setenvif
-                a2enconf php7.2-fpm
+                a2enconf php$PHP_VERS-fpm
                 systemctl reload apache2
                 adduser www-data video
 
