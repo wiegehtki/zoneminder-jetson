@@ -222,7 +222,7 @@ echo $(date -u) "07 von 11: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 ln -sf python$PYTHON_VER /usr/bin/python
                 apt -y install libopenblas-dev liblapack-dev libblas-dev # this is the important part
                 cd ~/zoneminder/dlib
-                python ./setup.py install 
+                python3 ./setup.py install 
                 python3 -m pip install face_recognition
                 cd ~
 
