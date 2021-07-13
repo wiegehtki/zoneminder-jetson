@@ -230,8 +230,8 @@ echo $(date -u) "...............................................................
 echo $(date -u) "08 von 11: Gesichtserkennung und cuDNN installieren"  | tee -a  ~/Installation.log
                 #opencv compilieren
                 apt -y install python-dev python3-dev
-                apt -y install python-pip
-                python2 -m pip  install numpy
+                #apt -y install python-pip
+                python3 -m pip  install numpy
 
                 cd ~
                 wget  -O opencv.zip $OPENCV_URL
@@ -266,8 +266,8 @@ echo $(date -u) "08 von 11: Gesichtserkennung und cuDNN installieren"  | tee -a 
                       -D PYTHON_EXECUTABLE=/usr/bin/python3 \
                       -D PYTHON2_EXECUTABLE=/usr/bin/python2 \
                       -D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
-                      -D PYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")  \
-                      -D PYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") \
+                      -D PYTHON_INCLUDE_DIR=$(python3 -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")  \
+                      -D PYTHON_LIBRARY=$(python3 -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") \
                       -D BUILD_EXAMPLES=OFF ..
 
                 make -j$(nproc)
