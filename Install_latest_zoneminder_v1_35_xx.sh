@@ -246,7 +246,8 @@ echo $(date -u) "08 von 11: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 rm -rf build
                 mkdir build
                 cd build
-                update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8
+                update-alternatives --install /usr/bin/gcc gcc /usr/bin/g++-7 7
+                update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 7
                 apt -y install --reinstall build-essential
 
                 #Wichtig: Je nach Karte wählen - CUDA_ARCH_BIN = https://en.wikipedia.org/wiki/CUDA 
