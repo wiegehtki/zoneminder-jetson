@@ -173,6 +173,7 @@ echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/Insta
                 sudo apt -y install python3-matplotlib libgeos-dev
                 python3 -m pip install numpy scipy ipython pandas sympy nose cython
                 python3 -m pip install future
+				python3 -m pip install backports.weakref
 
                 cp -r ~/zoneminder/Anzupassen/. /etc/zm/.
                 cp -r ~/zoneminder/zmeventnotification/EventServer.zip ~/.
