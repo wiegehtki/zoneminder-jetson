@@ -78,7 +78,7 @@ echo $(date -u) "04 von 10: Systemupdate und Apache, MySQL und PHP installieren"
                 apt -y install tasksel
                 tasksel install lamp-server
      
-                add-apt-repository -y ppa:iconnor/zoneminder-1.34
+                add-apt-repository -y ppa:iconnor/zoneminder-master  #1.34
                 apt -y update
                 apt -y upgrade
                 apt -y dist-upgrade
@@ -171,9 +171,9 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/Installation.log
                 sudo apt -y install python3-matplotlib libgeos-dev
-                python3 -m pip install numpy scipy ipython pandas sympy nose cython
+                python3 -m pip install numpy scipy ipython pandas sympy nose cython imutils
                 python3 -m pip install future
-				python3 -m pip install backports.weakref
+				#	python3 -m pip install backports.weakref
 
                 cp -r ~/zoneminder/Anzupassen/. /etc/zm/.
                 cp -r ~/zoneminder/zmeventnotification/EventServer.zip ~/.
