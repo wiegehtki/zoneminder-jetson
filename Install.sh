@@ -171,7 +171,7 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/Installation.log
                 sudo apt -y install python3-matplotlib libgeos-dev
-                python3 -m pip install numpy scipy ipython pandas sympy nose cython imutils
+                python3 -m pip install numpy scipy ipython pandas sympy nose cython imutils pyzm
                 python3 -m pip install future
 				#	python3 -m pip install backports.weakref
 
