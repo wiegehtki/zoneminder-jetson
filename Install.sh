@@ -255,7 +255,7 @@ echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
                       -D PYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") \
                       -D BUILD_EXAMPLES=OFF ..
 
-                make -j$(nproc)
+                make -j2
                 make install
 
                 echo "Test auf CUDA enabled Devices, muss größer 0 sein:" | tee -a  ~/Installation.log
