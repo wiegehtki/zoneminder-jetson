@@ -106,7 +106,7 @@ Falls nicht, hier die Download-Links:
 ### Optimierungen
 
 ### Bekannte Fehler und deren Behebungen
-1. **Datenbank-Verbindungen werden immer mehr und die Verbindung zur Datenbank geht verloren** 
+1. **Datenbank-Verbindungen werden immer mehr und die Verbindung zur Datenbank geht verloren.** 
    Wenn dieser Fehler auftritt (gesehen bei **Zoneminder 1.34.22**), dann folgende Schritte durchführen:
     * Rechner rebooten
     * ZM-Site aufrufen
@@ -122,7 +122,7 @@ Falls nicht, hier die Download-Links:
     Der Fehler sollte jetzt nicht mehr auftreten.
     
 2. **Segmentation fault bei SDK JP 4.6**
-   Bitte Image 4.5.1 benutzen, hier scheint es Probleme zu geben.
+   * Bitte Image 4.5.1 benutzen, hier scheint es Probleme zu geben.
     
 
 
