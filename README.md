@@ -1,6 +1,6 @@
 # Kameraüberwachung mit Objekt- und Gesichtserkennung mittels Zoneminder, YOLO und OpenCV auf NVIDIA® Jetson™ Plattform mit CUDA® und cuDNN® 
 
-### Installation von Zoneminder 1.34.x, OpenCV 4.5.1 und YOLO (Tiny, v3 und v4) unter NVIDIA® JP4.4.1
+### Installation von Zoneminder 1.3x.x, OpenCV 4.5.4 und YOLO (Tiny, v3 und v4) unter NVIDIA® JP4.4.1
 
 #### Nach der Installation dieser Software könnt Ihr: 
 * Mit Zoneminder Eure IP-Kameras einbinden und mobil verfügbar machen
@@ -17,11 +17,11 @@
 * **Inbetriebnahme:** https://youtu.be/oek1nLKK53E
 
 
-#### Das neueste Image (JP 4.4.1) für den Nano oder Xavier NX könnt Ihr hier herunterladen: https://developer.nvidia.com/embedded/downloads oder über den NVIDIA® Download Center suchen, falls bestimmte Versionen benötigt werden.
+#### Das neueste Image (JP 4.6) für den Nano oder Xavier NX könnt Ihr hier herunterladen: https://developer.nvidia.com/embedded/downloads oder über den NVIDIA® Download Center suchen, falls bestimmte Versionen benötigt werden.
  
-#### JP 4.4.1 bietet Unterstützung u.a. für:
+#### JP 4.6 bietet Unterstützung u.a. für:
 * **CUDA 10.2**
-* **cuDNN 8.0**
+* **cuDNN 8.2.1**
 * **TensorRT 7.1.3**
 
 #### Die Geschwindigkeit kann manuell wie folgt hoch gesetzt werden; der Installationsscript führt dies automatisch durch.
@@ -38,7 +38,7 @@ sudo jetson_clocks
 ```
 
 #### Informationen zu cuDNN® und CUDA®:
-In diesem Projekt kommt eine NVIDIA® Grafikkarte zum Einsatz um den Prozessor von rechenintensiven Verarbeitungen zu befreien. Dazu setzen wir NVIDIA®'s CUDA® und cuDNN® ein. CUDA® ist eine Technologie, die es erlaubt Programmteile durch den Grafikprozessor abarbeiten zu lassen während die NVIDIA® CUDA® Deep Neural Network Bibliothek (cuDNN) eine GPU-beschleunigte Bibliothek mit Primitiven für tiefe neuronale Netzwerke darstellt. Solche Primitive, typischerweise neuronale Netzwerkschichten genannt, sind die grundlegenden Bausteine tiefer Netzwerke. cuDNN® und CUDA® samt Treiber sind bereits in JP4.4.1 enthalten.
+In diesem Projekt kommt eine NVIDIA® Grafikkarte zum Einsatz um den Prozessor von rechenintensiven Verarbeitungen zu befreien. Dazu setzen wir NVIDIA®'s CUDA® und cuDNN® ein. CUDA® ist eine Technologie, die es erlaubt Programmteile durch den Grafikprozessor abarbeiten zu lassen während die NVIDIA® CUDA® Deep Neural Network Bibliothek (cuDNN) eine GPU-beschleunigte Bibliothek mit Primitiven für tiefe neuronale Netzwerke darstellt. Solche Primitive, typischerweise neuronale Netzwerkschichten genannt, sind die grundlegenden Bausteine tiefer Netzwerke. cuDNN® und CUDA® samt Treiber sind bereits in JP4.6 enthalten.
 
 Der Script geht davon aus, dass es sich um eine neu aufgesetzte Maschine handelt, falls nicht, müsst Ihr entsprechende Anpassungen machen oder die Befehle per Hand ausführen um sicher zu gehen, dass eine vorhandene Installation nicht beeinträchtigt wird. Empfohlen wird daher, ein verfügbares Testsystem zu nutzen welches neu aufgesetzt werden kann.
 
