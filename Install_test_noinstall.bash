@@ -216,6 +216,8 @@ echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 #opencv compilieren
                 apt -y install python-dev python3-dev
                 apt -y install python-pip
+                apt -y install clang
+                
                 python2 -m pip  install numpy
 
                 cd ~
@@ -232,32 +234,33 @@ echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 mkdir build
                 cd build
                 echo "Debug: cmake"  | tee -a  ~/Installation.log                
+                export CXXFLAGS += -w
                
                 #Wichtig: Je nach Karte wählen - CUDA_ARCH_BIN = https://en.wikipedia.org/wiki/CUDA 
-                cmake -D CMAKE_BUILD_TYPE=RELEASE \
-                      -D CMAKE_INSTALL_PREFIX=/usr/local \
-                      -D INSTALL_PYTHON_EXAMPLES=OFF \
-                      -D INSTALL_C_EXAMPLES=OFF \
-                      -D OPENCV_ENABLE_NONFREE=ON \
-                      -D WITH_CUDA=ON \
-                      -D WITH_CUDNN=ON \
-                      -D OPENCV_DNN_CUDA=ON \
-                      -D ENABLE_FAST_MATH=1 \
-                      -D CUDA_FAST_MATH=1 \
-                      -D CUDA_ARCH_PTX="" \
-                      -D CUDA_ARCH_BIN="5.3,6.2,7.2" \
-                      -D WITH_CUBLAS=1 \
-                      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
-                      -D HAVE_opencv_python3=ON \
-                      -D PYTHON_EXECUTABLE=/usr/bin/python3 \
-                      -D PYTHON2_EXECUTABLE=/usr/bin/python2 \
-                      -D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
-                      -D PYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")  \
-                      -D PYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") \
-                      -D BUILD_EXAMPLES=OFF ..
+                CXX=clang++ CC=clang cmake -D CMAKE_BUILD_TYPE=RELEASE \
+                                           -D CMAKE_INSTALL_PREFIX=/usr/local \
+                                           -D INSTALL_PYTHON_EXAMPLES=OFF \
+                                           -D INSTALL_C_EXAMPLES=OFF \
+                                           -D OPENCV_ENABLE_NONFREE=ON \
+                                           -D WITH_CUDA=ON \
+                                           -D WITH_CUDNN=ON \
+                                           -D OPENCV_DNN_CUDA=ON \
+                                           -D ENABLE_FAST_MATH=1 \
+                                           -D CUDA_FAST_MATH=1 \
+                                           -D CUDA_ARCH_PTX="" \
+                                           -D CUDA_ARCH_BIN="5.3,6.2,7.2" \
+                                           -D WITH_CUBLAS=1 \
+                                           -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+                                           -D HAVE_opencv_python3=ON \
+                                           -D PYTHON_EXECUTABLE=/usr/bin/python3 \
+                                           -D PYTHON2_EXECUTABLE=/usr/bin/python2 \
+                                           -D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
+                                           -D PYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")  \
+                                           -D PYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") \
+                                           -D BUILD_EXAMPLES=OFF ..
 
                 echo "Debug: Make 1"  | tee -a  ~/Installation.log                
-                make -j$(nproc)
+                make -j$(nproc) 
                 echo "Debug: Make 2"  | tee -a  ~/Installation.log                
                 make install
 
@@ -268,7 +271,6 @@ echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
 
                 chown root:www-data /etc/zm/conf.d/*.conf
                 chmod 640 /etc/zm/conf.d/*.conf
-exit
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "09 von 10: Anpassungen Zoneminder"  | tee -a  ~/Installation.log
