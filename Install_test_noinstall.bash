@@ -13,7 +13,7 @@
                 export SHMEM="50%"
                 export MULTI_PORT_START="0"
                 export MULTI_PORT_END="0"
-
+                 
                 if [ "$(whoami)" != $Benutzer ]; then
                         echo $(date -u) "Script muss als Benutzer $Benutzer ausgeführt werden!"
                         exit 255
@@ -30,6 +30,11 @@
                 grep -q Xavier /proc/device-tree/model && sudo nvpmodel -m 2
                 grep -q Nano /proc/device-tree/model   && sudo nvpmodel -m 0
                 sudo jetson_clocks
+                
+                #Vorbelegung CompilerFlags und Warnungen zu unterdrücken die durch automatisch generierten Code schnell mal entstehen können und keine wirkliche Relevanz haben
+                export CFLAGS=$CFLAGS" -w"
+                export CPPFLAGS=$CPPFLAGS" -w"
+                export CXXFLAGS=$CXXFLAGS" -w"
 
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS            By WIEGEHTKI.DE #" | tee -a  ~/Installation.log
