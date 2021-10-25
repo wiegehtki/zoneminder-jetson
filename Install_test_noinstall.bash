@@ -40,7 +40,7 @@ echo $(date -u) "###############################################################
 echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS            By WIEGEHTKI.DE #" | tee -a  ~/Installation.log
 echo $(date -u) "# Zur freien Verwendung. Ohne Gewähr und nur auf Testsystemen anzuwenden                                        #" | tee -a  ~/Installation.log
 echo $(date -u) "#                                                                                                               #" | tee -a  ~/Installation.log
-echo $(date -u) "# V2.0.1 (Rev b), 12.01.2021                                                                                    #" | tee -a  ~/Installation.log
+echo $(date -u) "# V2.2.0 (Rev b), 25.10.2021                                                                                    #" | tee -a  ~/Installation.log
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
@@ -176,9 +176,10 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/Installation.log
                 sudo apt -y install python3-matplotlib libgeos-dev
-                python3 -m pip install numpy scipy ipython pandas sympy nose cython imutils #pyzm
+                pip3 install --upgrade pip
+                python3 -m pip install numpy scipy ipython pandas sympy nose cython imutils pyzm pyzmq
                 python3 -m pip install future
-				#	python3 -m pip install backports.weakref
+                #python3 -m pip install backports.weakref
 
                 cp -r ~/zoneminder/Anzupassen/. /etc/zm/.
                 cp -r ~/zoneminder/zmeventnotification/EventServer.zip ~/.
@@ -318,6 +319,13 @@ echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/Installatio
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
                 mysql_tzinfo_to_sql /usr/share/zoneinfo/Europe/ | sudo mysql -u root mysql
                 sudo mysql -e "SET GLOBAL time_zone = 'Berlin';"
+                echo "Fix für Benutzeranmeldung"
+                mysql -e "drop database zm;"
+                mysql -uroot < /usr/share/zoneminder/db/zm_create.sql
+                mysql -e "ALTER USER 'zmuser'@localhost IDENTIFIED BY 'zmpass';"
+                mysql -e "GRANT ALL PRIVILEGES ON zm.* TO 'zmuser'@'localhost' WITH GRANT OPTION;"
+                mysql -e "FLUSH PRIVILEGES ;"
+                systemctl restart zoneminder
                 echo ""
                 echo "Installation abgeschlossen, bitte Log prüfen und Jetson neu starten (reboot)"
 

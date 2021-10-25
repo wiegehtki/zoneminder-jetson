@@ -6,14 +6,14 @@
                 export DEBCONF_NONINTERACTIVE_SEEN="true"
                 export DEBIAN_FRONTEND="noninteractive"
                 export PHP_VERS="7.2"
-                export OPENCV_VER=4.5.4
+                export OPENCV_VER=4.5.3
                 export OPENCV_URL=https://github.com/opencv/opencv/archive/$OPENCV_VER.zip
                 export OPENCV_CONTRIB_URL=https://github.com/opencv/opencv_contrib/archive/$OPENCV_VER.zip
                 export TZ="Europe/Berlin"
                 export SHMEM="50%"
                 export MULTI_PORT_START="0"
                 export MULTI_PORT_END="0"
-
+                 
                 if [ "$(whoami)" != $Benutzer ]; then
                         echo $(date -u) "Script muss als Benutzer $Benutzer ausgeführt werden!"
                         exit 255
@@ -30,12 +30,17 @@
                 grep -q Xavier /proc/device-tree/model && sudo nvpmodel -m 2
                 grep -q Nano /proc/device-tree/model   && sudo nvpmodel -m 0
                 sudo jetson_clocks
+                
+                #Vorbelegung CompilerFlags und Warnungen zu unterdrücken die durch automatisch generierten Code schnell mal entstehen können und keine wirkliche Relevanz haben
+                export CFLAGS=$CFLAGS" -w"
+                export CPPFLAGS=$CPPFLAGS" -w"
+                export CXXFLAGS=$CXXFLAGS" -w"
 
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS            By WIEGEHTKI.DE #" | tee -a  ~/Installation.log
 echo $(date -u) "# Zur freien Verwendung. Ohne Gewähr und nur auf Testsystemen anzuwenden                                        #" | tee -a  ~/Installation.log
 echo $(date -u) "#                                                                                                               #" | tee -a  ~/Installation.log
-echo $(date -u) "# V2.1.1 (Rev c), 18.10.2021                                                                                    #" | tee -a  ~/Installation.log
+echo $(date -u) "# V2.2.0 (Rev b), 25.10.2021                                                                                    #" | tee -a  ~/Installation.log
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
@@ -171,9 +176,10 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/Installation.log
                 sudo apt -y install python3-matplotlib libgeos-dev
-                python3 -m pip install numpy scipy ipython pandas sympy nose cython imutils #pyzm
+                pip3 install --upgrade pip
+                python3 -m pip install numpy scipy ipython pandas sympy nose cython imutils pyzm pyzmq
                 python3 -m pip install future
-				#	python3 -m pip install backports.weakref
+                #python3 -m pip install backports.weakref
 
                 cp -r ~/zoneminder/Anzupassen/. /etc/zm/.
                 cp -r ~/zoneminder/zmeventnotification/EventServer.zip ~/.
@@ -216,6 +222,8 @@ echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 #opencv compilieren
                 apt -y install python-dev python3-dev
                 apt -y install python-pip
+                apt -y install clang
+                
                 python2 -m pip  install numpy
 
                 cd ~
@@ -231,31 +239,35 @@ echo $(date -u) "08 von 10: Gesichtserkennung und cuDNN installieren"  | tee -a 
                 rm -rf build
                 mkdir build
                 cd build
-
+                echo "Debug: cmake"  | tee -a  ~/Installation.log                
+                export CXXFLAGS += -w
+               
                 #Wichtig: Je nach Karte wählen - CUDA_ARCH_BIN = https://en.wikipedia.org/wiki/CUDA 
-                cmake -D CMAKE_BUILD_TYPE=RELEASE \
-                      -D CMAKE_INSTALL_PREFIX=/usr/local \
-                      -D INSTALL_PYTHON_EXAMPLES=OFF \
-                      -D INSTALL_C_EXAMPLES=OFF \
-                      -D OPENCV_ENABLE_NONFREE=ON \
-                      -D WITH_CUDA=ON \
-                      -D WITH_CUDNN=ON \
-                      -D OPENCV_DNN_CUDA=ON \
-                      -D ENABLE_FAST_MATH=1 \
-                      -D CUDA_FAST_MATH=1 \
-                      -D CUDA_ARCH_PTX="" \
-                      -D CUDA_ARCH_BIN="5.3,6.2,7.2" \
-                      -D WITH_CUBLAS=1 \
-                      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
-                      -D HAVE_opencv_python3=ON \
-                      -D PYTHON_EXECUTABLE=/usr/bin/python3 \
-                      -D PYTHON2_EXECUTABLE=/usr/bin/python2 \
-                      -D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
-                      -D PYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")  \
-                      -D PYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") \
-                      -D BUILD_EXAMPLES=OFF ..
+                CXX=clang++ CC=clang cmake -D CMAKE_BUILD_TYPE=RELEASE \
+                                           -D CMAKE_INSTALL_PREFIX=/usr/local \
+                                           -D INSTALL_PYTHON_EXAMPLES=OFF \
+                                           -D INSTALL_C_EXAMPLES=OFF \
+                                           -D OPENCV_ENABLE_NONFREE=ON \
+                                           -D WITH_CUDA=ON \
+                                           -D WITH_CUDNN=ON \
+                                           -D OPENCV_DNN_CUDA=ON \
+                                           -D ENABLE_FAST_MATH=1 \
+                                           -D CUDA_FAST_MATH=1 \
+                                           -D CUDA_ARCH_PTX="" \
+                                           -D CUDA_ARCH_BIN="5.3,6.2,7.2" \
+                                           -D WITH_CUBLAS=1 \
+                                           -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+                                           -D HAVE_opencv_python3=ON \
+                                           -D PYTHON_EXECUTABLE=/usr/bin/python3 \
+                                           -D PYTHON2_EXECUTABLE=/usr/bin/python2 \
+                                           -D PYTHON_DEFAULT_EXECUTABLE=$(which python3) \
+                                           -D PYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())")  \
+                                           -D PYTHON_LIBRARY=$(python -c "import distutils.sysconfig as sysconfig; print(sysconfig.get_config_var('LIBDIR'))") \
+                                           -D BUILD_EXAMPLES=OFF ..
 
-                make -j1
+                echo "Debug: Make 1"  | tee -a  ~/Installation.log                
+                make -j$(nproc) 
+                echo "Debug: Make 2"  | tee -a  ~/Installation.log                
                 make install
 
                 echo "Test auf CUDA enabled Devices, muss größer 0 sein:" | tee -a  ~/Installation.log
@@ -307,6 +319,13 @@ echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/Installatio
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
                 mysql_tzinfo_to_sql /usr/share/zoneinfo/Europe/ | sudo mysql -u root mysql
                 sudo mysql -e "SET GLOBAL time_zone = 'Berlin';"
+                echo "Fix für Benutzeranmeldung"
+                mysql -e "drop database zm;"
+                mysql -uroot < /usr/share/zoneminder/db/zm_create.sql
+                mysql -e "ALTER USER 'zmuser'@localhost IDENTIFIED BY 'zmpass';"
+                mysql -e "GRANT ALL PRIVILEGES ON zm.* TO 'zmuser'@'localhost' WITH GRANT OPTION;"
+                mysql -e "FLUSH PRIVILEGES ;"
+                systemctl restart zoneminder
                 echo ""
                 echo "Installation abgeschlossen, bitte Log prüfen und Jetson neu starten (reboot)"
 
