@@ -114,9 +114,14 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
                 apt -y install libcrypt-mysql-perl libyaml-perl libjson-perl libavutil-dev ffmpeg && \
                 apt -y install --no-install-recommends libvlc-dev libvlccore-dev vlc
 
-                mysql -uroot --skip-password < /usr/share/zoneminder/db/zm_create.sql
-                mysql -uroot --skip-password -e "grant lock tables,alter,drop,select,insert,update,delete,create,index,alter routine,create routine, trigger,execute on zm.* to 'zmuser'@localhost identified by 'zmpass';"
-
+                #mysql -uroot --skip-password < /usr/share/zoneminder/db/zm_create.sql
+                #mysql -uroot --skip-password -e "grant lock tables,alter,drop,select,insert,update,delete,create,index,alter routine,create routine, trigger,execute on zm.* to 'zmuser'@localhost identified by 'zmpass';"
+                #mysql -e "drop database zm;"
+                mysql -uroot < /usr/share/zoneminder/db/zm_create.sql
+                mysql -e "ALTER USER 'zmuser'@localhost IDENTIFIED BY 'zmpass';"
+                mysql -e "GRANT ALL PRIVILEGES ON zm.* TO 'zmuser'@'localhost' WITH GRANT OPTION;"
+                mysql -e "FLUSH PRIVILEGES ;"
+             
                 chown www-data:www-data /etc/zm/zm.conf
                 chown -R www-data:www-data /usr/share/zoneminder/
 
@@ -319,12 +324,6 @@ echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/Installatio
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
                 mysql_tzinfo_to_sql /usr/share/zoneinfo/Europe/ | sudo mysql -u root mysql
                 sudo mysql -e "SET GLOBAL time_zone = 'Berlin';"
-                echo "Fix für Benutzeranmeldung"
-                mysql -e "drop database zm;"
-                mysql -uroot < /usr/share/zoneminder/db/zm_create.sql
-                mysql -e "ALTER USER 'zmuser'@localhost IDENTIFIED BY 'zmpass';"
-                mysql -e "GRANT ALL PRIVILEGES ON zm.* TO 'zmuser'@'localhost' WITH GRANT OPTION;"
-                mysql -e "FLUSH PRIVILEGES ;"
                 systemctl restart zoneminder
                 echo ""
                 echo "Installation abgeschlossen, bitte Log prüfen und Jetson neu starten (reboot)"
