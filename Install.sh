@@ -116,7 +116,7 @@ echo $(date -u) "05 von 10: Apache konfigurieren, SSL-Zertifikate generieren und
 
                 #mysql -uroot --skip-password < /usr/share/zoneminder/db/zm_create.sql
                 #mysql -uroot --skip-password -e "grant lock tables,alter,drop,select,insert,update,delete,create,index,alter routine,create routine, trigger,execute on zm.* to 'zmuser'@localhost identified by 'zmpass';"
-                #mysql -e "drop database zm;"
+                mysql -e "drop database zm;"
                 mysql -uroot < /usr/share/zoneminder/db/zm_create.sql
                 mysql -e "ALTER USER 'zmuser'@localhost IDENTIFIED BY 'zmpass';"
                 mysql -e "GRANT ALL PRIVILEGES ON zm.* TO 'zmuser'@'localhost' WITH GRANT OPTION;"
