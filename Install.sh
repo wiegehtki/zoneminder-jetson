@@ -6,7 +6,7 @@
                 export DEBCONF_NONINTERACTIVE_SEEN="true"
                 export DEBIAN_FRONTEND="noninteractive"
                 export PHP_VERS="7.2"
-                export OPENCV_VER=4.5.3
+                export OPENCV_VER=4.5.5
                 export OPENCV_URL=https://github.com/opencv/opencv/archive/$OPENCV_VER.zip
                 export OPENCV_CONTRIB_URL=https://github.com/opencv/opencv_contrib/archive/$OPENCV_VER.zip
                 export TZ="Europe/Berlin"
@@ -186,16 +186,25 @@ echo $(date -u) "06 von 10: zmeventnotification installieren"  | tee -a  ~/Insta
                 python3 -m pip install future
                 #python3 -m pip install backports.weakref
 
-                cp -r ~/zoneminder/Anzupassen/. /etc/zm/.
-                cp -r ~/zoneminder/zmeventnotification/EventServer.zip ~/.
-                unzip EventServer
+                #cp -r ~/zoneminder/Anzupassen/. /etc/zm/.
+                #cp -r ~/zoneminder/zmeventnotification/EventServer.zip ~/.
+                #unzip EventServer
+                #cd ~/EventServer
+                #chmod -R +x *
+                #./install.sh --install-hook --install-es --no-install-config --no-interactive
+                #cd ~
+                #cp EventServer/zmeventnotification.ini /etc/zm/. -r
+                #chmod +x /var/lib/zmeventnotification/bin/*
+
+                git clone https://github.com/zoneminder/zmeventnotification.git  ~/EventServer
+                cd ~
                 cd ~/EventServer
                 chmod -R +x *
                 ./install.sh --install-hook --install-es --no-install-config --no-interactive
                 cd ~
                 cp EventServer/zmeventnotification.ini /etc/zm/. -r
                 chmod +x /var/lib/zmeventnotification/bin/*
-
+ 
 
                 yes | perl -MCPAN -e "install Crypt::MySQL"
                 yes | perl -MCPAN -e "install Config::IniFiles"
@@ -324,6 +333,7 @@ echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/Installatio
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
                 mysql_tzinfo_to_sql /usr/share/zoneinfo/Europe/ | sudo mysql -u root mysql
                 sudo mysql -e "SET GLOBAL time_zone = 'Berlin';"
+				
                 systemctl restart zoneminder
                 echo ""
                 echo "Installation abgeschlossen, bitte Log prüfen und Jetson neu starten (reboot)"
