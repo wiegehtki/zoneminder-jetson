@@ -40,7 +40,7 @@ echo $(date -u) "###############################################################
 echo $(date -u) "# Zoneminder - Objekterkennung mit OpenCV, CUDA, cuDNN und YOLO auf Ubuntu 18.04 LTS            By WIEGEHTKI.DE #" | tee -a  ~/Installation.log
 echo $(date -u) "# Zur freien Verwendung. Ohne Gewähr und nur auf Testsystemen anzuwenden                                        #" | tee -a  ~/Installation.log
 echo $(date -u) "#                                                                                                               #" | tee -a  ~/Installation.log
-echo $(date -u) "# V2.2.0 (Rev b), 25.10.2021                                                                                    #" | tee -a  ~/Installation.log
+echo $(date -u) "# V2.2.1(Rev b), 25.10.2022                                                                                     #" | tee -a  ~/Installation.log
 echo $(date -u) "#################################################################################################################" | tee -a  ~/Installation.log
 
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
@@ -327,7 +327,7 @@ echo $(date -u) "09 von 10: Anpassungen Zoneminder"  | tee -a  ~/Installation.lo
 echo $(date -u) "................................................................................................................." | tee -a  ~/Installation.log
 echo $(date -u) "10 von 10: Bugfixes kopieren und Ende"  | tee -a  ~/Installation.log
                 #Bugfixes
-                python3 -m pip install protobuf==3.3.0
+                python3 -m pip install protobuf==3.19.1
                 python3 -m pip install numpy==1.16.1
                 chown -R  www-data:www-data /etc/apache2/ssl
                 yes | perl -MCPAN -e "upgrade IO::Socket::SSL"
